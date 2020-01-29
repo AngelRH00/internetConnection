@@ -63,20 +63,14 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 System.out.println("I/O Error: " + e.getMessage());
             }
-            String regexString = Pattern.quote("<p>") + "(?s)(.*?)" + Pattern.quote("</p>");
-            Pattern pattern = Pattern.compile(regexString);
-// mensaje contains the full text that you want to extract data
-            Matcher matcher = pattern.matcher(mensaje);
 
-            String finalMessage = "";
-            while (matcher.find()) {
-                 finalMessage += matcher.group(1); // Since (.*?) is capturing group 1
-                // You can insert match into a List/Collection here
-            }
-            finalMessage = finalMessage.substring(0,finalMessage.indexOf("<"));
-            String finalmensaje2 = finalMessage.replace(".", ".\n");
-            finalMessage = finalMessage.replace("?", "?\n");
-            return finalMessage;
+            String[] text;
+            text=mensaje.split("<div id=\"paste\">");
+            text=text[1].split("</div>");
+            mensaje=text[0];
+            String editor = mensaje.replace("<p>", "\n");
+            mensaje = editor.replace("</p>", "");
+            return mensaje;
         }
         protected void onPostExecute(String finalMessage){
             mensajeria.setText(finalMessage);
